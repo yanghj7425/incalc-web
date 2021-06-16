@@ -1,56 +1,25 @@
 <template>
-  <div class="app-container">
-    <el-table
-      v-loading="listLoading"
-      :data="list"
-      element-loading-text="Loading"
-      border
-      fit
-      highlight-current-row
-    >
-      <el-table-column align="center" :label="getToday()" width="120">
-        <template slot-scope="scope">
-          <span>{{ scope.row[getToday()] }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column align="center" label="保山" width="95">
-        <template slot-scope="scope">
-          <span>{{ scope.row.保山 }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="隆阳区" width="110" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.隆阳区 }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="昌宁县" width="110" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.昌宁县 }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="腾冲县" width="110" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.腾冲县 }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column align="center" label="施甸县" width="200">
-        <template slot-scope="scope">
-          <span>{{ scope.row.施甸县 }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="龙陵县" width="110" align="center">
-        <template slot-scope="scope">
-          {{ scope.row.龙陵县 }}
-        </template>
-      </el-table-column>
-    </el-table>
+  <div>
+    <announce-table :list-loading="listLoading" :list="getSubList(0,15)" :title="'1.工单在途情况'" />
+
+    <announce-table :list-loading="listLoading" :list="getSubList(15,23)" :title="'2.今日派单情况'" />
+
+    <announce-table :list-loading="listLoading" :list="getSubList(23,35)" :title="'3.今日竣工情况'" />
+
+    <announce-table :list-loading="listLoading" :list="getSubList(35,42)" :title="'4.10086工单在途情况'" />
+
+    <announce-table :list-loading="listLoading" :list="getSubList(42,46)" :title="'5.今日客户画像工单情况'" />
+
   </div>
 </template>
 
 <script>
 import { getList } from '@/api/home/announce'
+import announceTable from './announce-table'
 
 export default {
+  components: { announceTable },
+
   filters: {
     statusFilter(status) {
       const statusMap = {
@@ -63,23 +32,30 @@ export default {
   },
   data() {
     return {
-      list: null,
+      list: [],
       listLoading: false
-
     }
   },
   created() {
     this.fetchData()
   },
   methods: {
-    getToday() {
-      const date = new Date()
-      const year = date.getFullYear() // 年
-      const month = date.getMonth() + 1 // 月
-      const day = date.getDate() // 日
+    /**
+     * 获取子列表
+     */
+    getSubList(start, end) {
+      if (end > this.list.length) {
+        return []
+      }
 
-      return year + '-' + month + '-' + day
+      var _list = this.list.slice(start, end)
+      console.log(_list)
+      return _list
     },
+
+    /**
+     * 服务器获取数据
+     */
     fetchData() {
       this.listLoading = true
       getList().then(response => {

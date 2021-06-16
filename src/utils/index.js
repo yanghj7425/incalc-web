@@ -115,3 +115,15 @@ export function param2Obj(url) {
   })
   return obj
 }
+
+export function timeFormat(date) {
+  var time = new Date(date)
+  var year = date.getFullYear()
+  /* 在日期格式中，月份是从0开始的，因此要加0
+   * 使用三元表达式在小于10的前面加0，以达到格式统一  如 09:11:05
+   * */
+  var month = time.getMonth() + 1 < 10 ? '0' + (time.getMonth() + 1) : time.getMonth() + 1
+  var day = time.getDate() < 10 ? '0' + time.getDate() : time.getDate()
+  return year + '-' + month + '-' + day
+}
+

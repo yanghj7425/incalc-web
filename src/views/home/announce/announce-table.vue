@@ -1,0 +1,86 @@
+<template>
+  <div class="app-container">
+    <el-divider content-position="left">{{ title }}</el-divider>
+
+    <el-table
+      v-loading="listLoading"
+      :data="list"
+      element-loading-text="Loading"
+      border
+      fit
+      highlight-current-row
+    >
+      <el-table-column align="center" :label="getToday()" width="135">
+        <template slot-scope="scope">
+          <span>{{ scope.row[getToday()] }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" label="保山" width="95">
+        <template slot-scope="scope">
+          <span>{{ scope.row.保山 }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="隆阳区" width="110" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.隆阳区 }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="昌宁县" width="110" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.昌宁县 }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="腾冲县" width="110" align="center">
+        <template slot-scope="scope">
+          <span>{{ scope.row.腾冲县 }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" label="施甸县" width="200">
+        <template slot-scope="scope">
+          <span>{{ scope.row.施甸县 }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="龙陵县" width="110" align="center">
+        <template slot-scope="scope">
+          {{ scope.row.龙陵县 }}
+        </template>
+      </el-table-column>
+    </el-table>
+  </div>
+</template>
+
+<script>
+import { timeFormat } from '@/utils'
+export default {
+  props: {
+    list: {
+      type: Array,
+      required: true
+    },
+    listLoading: {
+      type: Boolean,
+      required: true
+    },
+    title: {
+      type: String,
+      required: true
+
+    }
+  },
+  data: function() {
+    return {
+      return: {
+        list: this.list,
+        listLoading: this.listLoading,
+        title: this.title
+      }
+    }
+  },
+  methods: {
+    getToday() {
+      const date = new Date()
+      return timeFormat(date)
+    }
+  }
+}
+</script>
