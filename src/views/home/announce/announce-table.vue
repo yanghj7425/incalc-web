@@ -67,13 +67,14 @@ export default {
     }
   },
   data: function() {
-    return {
-      return: {
-        list: this.list,
-        listLoading: this.listLoading,
-        title: this.title
-      }
-    }
+    // return {
+    //   return: {
+    //     list: this.list,
+    //     listLoading: this.listLoading,
+    //     title: this.title
+    //   }
+    // }
+    return this.props
   },
   methods: {
     getToday() {
