@@ -1,17 +1,18 @@
 <template>
   <div>
     <el-upload
-      class="upload-demo"
+      class="upload-demo button-margin"
       :action="url"
       :on-preview="handlePreview"
       :on-remove="handleRemove"
       :before-remove="beforeRemove"
       :limit="1"
-      :data="{sheet:1}"
+      :data="{sheet:sheet}"
       :on-exceed="handleExceed"
       :file-list="fileList"
     >
       <el-button size="small" type="primary">{{ title }}</el-button>
+      <!-- {{ sheet }} -->
       <!-- <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div> -->
     </el-upload>
   </div>
@@ -24,6 +25,9 @@ export default {
     },
     title: {
       type: String, required: true, default: '文件上传'
+    },
+    sheet: {
+      type: Number, required: true
     }
   },
 
@@ -65,4 +69,7 @@ export default {
     line-height: 46px;
   }
 }
+.button-margin{
+     padding-left:20px;
+   }
 </style>

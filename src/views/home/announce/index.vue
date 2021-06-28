@@ -1,8 +1,13 @@
 <template>
   <div>
     <div style="display:flex">
-      <upload-button :title="'订单明细上传'" :action="'order/upload/detail'" />
-      <upload-button />
+      <upload-button :title="'订单信息'" :action="'order/upload/detail'" :sheet="0" />
+      <upload-button :title="'10086'" :action="'order/upload/10086'" :sheet="0" />
+      <upload-button :title="'回捞池'" :action="'order/upload/pool'" :sheet="0" />
+      <upload-button :title="'压力值'" :action="'/order/upload/pressure'" :sheet="0" />
+      <upload-button :title="'画像订单'" :action="'/order/upload/pic'" :sheet="0" />
+      <el-button size="small" style="margin-left: 20px" type="primary" :disabled="isDisabled" @click="downloadFile()"> 通告文件下载</el-button>
+
     </div>
     <div>
 
@@ -25,6 +30,7 @@
 import { getList } from '@/api/home/announce'
 import announceTable from './announce-table'
 import uploadButton from '@/components/upload/upload-button'
+import { downloadFile } from '@/utils/download'
 
 export default {
   components: { announceTable, uploadButton },
@@ -42,6 +48,7 @@ export default {
   data() {
     return {
       list: [],
+      isDisabled: false,
       listLoading: false
     }
   },
@@ -49,6 +56,12 @@ export default {
     this.fetchData()
   },
   methods: {
+    downloadFile() {
+      this.isDisabled = true
+      var url = 'announce/export'
+      downloadFile(url)
+    },
+
     /**
      * 获取子列表
      */
@@ -56,7 +69,6 @@ export default {
       if (end > this.list.length) {
         return []
       }
-
       var _list = this.list.slice(start, end)
       console.log(_list)
       return _list
@@ -67,10 +79,10 @@ export default {
      */
     fetchData() {
       this.listLoading = true
-      getList().then(response => {
+
+      getList({ date: '2021-06-20 23:38:30' }).then(response => {
         this.list = response.data
         this.listLoading = false
-        console.log(response)
       })
     }
   }
